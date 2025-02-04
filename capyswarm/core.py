@@ -1,5 +1,6 @@
 # Standard library imports
 import asyncio
+import webbrowser
 from typing import List, Optional, Dict
 
 # Package/library imports
@@ -64,7 +65,9 @@ class Swarm:
                 print(f"Error {e.status_code}: {e.body}")
         self.instances.clear()
 
-    async def _get_or_create_instance(self, agent: Agent) -> any:
+    async def _get_or_create_instance(
+        self, agent: Agent, interactive: bool = False
+    ) -> any:
         """Get existing instance or create new one for agent"""
         if agent.instance in self.instances:
             return self.instances[agent.instance]
@@ -87,6 +90,11 @@ class Swarm:
                     if "shared" in self.instances:
                         return self.instances["shared"]
                     instance = await self.client.start_ubuntu(timeout_hours=1)
+
+            if interactive:
+                stream_url = await instance.get_stream_url()
+                webbrowser.open(stream_url.stream_url)
+                await asyncio.sleep(7)
 
             self.instances[agent.instance] = instance
             return instance
@@ -113,10 +121,10 @@ class Swarm:
         ]
         return default_tools + tools
 
-    async def run_agent_task(self, agent: Agent):
+    async def run_agent_task(self, agent: Agent, interactive: bool = False):
         """Run a single agent's assigned task"""
         try:
-            instance = await self._get_or_create_instance(agent)
+            instance = await self._get_or_create_instance(agent, interactive)
             tools = self._setup_agent_tools(agent, instance)
 
             response = await self.client.act(
@@ -144,6 +152,7 @@ class Swarm:
         prompt: str,
         messages: Optional[List[Message]] = None,
         debug: bool = False,
+        interactive: bool = False,
     ) -> str:
         """Execute a task using the swarm of agents.
 
@@ -159,7 +168,9 @@ class Swarm:
         self.orchestrator.messages = messages
 
         # Initial planning phase
-        orchestrator_completion = await self.run_agent_task(self.orchestrator)
+        orchestrator_completion = await self.run_agent_task(
+            self.orchestrator, interactive
+        )
         self.orchestrator.response_schema = None
 
         debug_print(debug, orchestrator_completion)

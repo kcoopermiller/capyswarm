@@ -74,7 +74,7 @@ class InspectAgentTool(Tool):
                 {"role": msg.role, "content": msg.content}
                 for msg in target_agent.messages
             ],
-            "steps": target_agent.steps,
+            "steps": target_agent.steps if target_agent.steps else None,
         }
 
         return history
@@ -118,6 +118,10 @@ class CommunicateTool(Tool):
 
     async def _async_call(self, **kwargs: Any) -> Any:
         params = CommunicateParameters(**kwargs)
+
+        # Validate message content
+        if not params.message or not params.message.strip():
+            raise ValueError("Message content cannot be empty")
 
         # Create message for orchestrator as a user message
         agent_message = UserMessage(
