@@ -11,16 +11,16 @@ white = Agent(
            - Analyze the current position
            - Plan your response
         
-        2. Move pieces by dragging:
+        2. Move pieces by clicking:
            - Move mouse to source: computer(action="mouse_move", coordinate=[x, y])
-           - Start drag: computer(action="left_click_drag")
+           - Click: computer(action="left_click")
            - Move mouse to target: computer(action="mouse_move", coordinate=[x, y])
-           - Release: computer(action="left_click")
+           - Click: computer(action="left_click")
         
         Before each move:
         1. Take a screenshot to analyze the position
         2. Plan your move carefully
-        3. Execute the move with precise drag coordinates
+        3. Execute the move with precise click coordinates
         4. Take another screenshot to verify the move
         
         Chess Strategy Tips:
@@ -31,7 +31,7 @@ white = Agent(
         - Think about pawn structure
         
         End your turn after playing your move.""",
-    color=(222, 74, 11),
+    color=(255, 253, 208),
     orchestrator=False,
 )
 
@@ -46,16 +46,16 @@ black = Agent(
            - Analyze the current position
            - Plan your response
         
-        2. Move pieces by dragging:
+        2. Move pieces by clicking:
            - Move mouse to source: computer(action="mouse_move", coordinate=[x, y])
-           - Start drag: computer(action="left_click_drag")
+           - Click: computer(action="left_click")
            - Move mouse to target: computer(action="mouse_move", coordinate=[x, y])
-           - Release: computer(action="left_click")
+           - Click: computer(action="left_click")
         
         Before each move:
         1. Take a screenshot to analyze the position
         2. Plan your move carefully
-        3. Execute the move with precise drag coordinates
+        3. Execute the move with precise click coordinates
         4. Take another screenshot to verify the move
         
         Chess Strategy Tips:
@@ -66,12 +66,11 @@ black = Agent(
         - Think about pawn structure
         
         End your turn after playing your move.""",
-    color=(11, 111, 222),
+    color=(139, 89, 58),
     orchestrator=False,
 )
 
 orchestrator = Agent(
     name="Orchestrator",
-    color=(146, 11, 222),
     orchestrator=True,
 )

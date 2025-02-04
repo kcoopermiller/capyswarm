@@ -70,7 +70,7 @@ async def main():
     )
     
     async with Swarm([browser_agent, data_agent, orchestrator], api_key=os.getenv("SCRAPYBARA_API_KEY")) as swarm:
-        response = await swarm.run(
+        await swarm.run(
             prompt="Collect and analyze the top 5 posts from Hacker News (news.ycombinator.com).",
         )
 
@@ -166,6 +166,7 @@ TODO: create example evals. Check `weather_agent` and `triage_agent` in OpenAI S
 
 # Roadmap
 
+- [ ] Change instance (ubuntu, browser, or windows)
 - [ ] Add more examples / benchmarks
 - [ ] Add more documentation
 - [ ] Custom Response object

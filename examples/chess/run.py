@@ -16,9 +16,9 @@ async def main():
             Play a game of chess between White and Black agents on https://plainchess.timwoelfle.de/.
         
             Before instructing White and Black agents to play the game, you must:
-            1. Opening the game URL
-            2. Starting an offline chess game between the two agents
-            3. Verifying that the game is loaded
+            1. In the browser, navigate to https://plainchess.timwoelfle.de/.
+            2. Start an offline chess game between the two agents
+            3. Verify that the game is loaded
 
             Then, instruct the White and Black agents to play out the first 10 moves of the game (assign priority to each move accordingly).
             """,
