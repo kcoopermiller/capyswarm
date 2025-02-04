@@ -9,20 +9,17 @@ async def main():
     metadata_agent = Agent(
         name="Metadata Analyst",
         prompt="You are specialized in analyzing GitHub repository metadata, including stars, forks, issues, and community metrics. Focus on gathering and analyzing repository statistics and community health indicators.",
-        color="93",
         orchestrator=False
     )
     
     code_agent = Agent(
         name="Code Analyst",
         prompt="You are specialized in analyzing GitHub repository code structure, architecture, and patterns. Focus on examining code organization, key features, and technical implementation details.",
-        color="96",
         orchestrator=False
     )
     
     orchestrator = Agent(
         name="Orchestrator",
-        color="92",
         orchestrator=True
     )
     
