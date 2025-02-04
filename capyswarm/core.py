@@ -125,7 +125,6 @@ class Swarm:
                 on_step=agent.on_step,
             )
             
-            # TODO: not correct. needs to happen while running the agent (during step function?)
             if agent.messages is None:
                 agent.messages = response.messages
             else:
@@ -202,8 +201,7 @@ class Swarm:
         Based on all the information shared during this task:
         1. Create a comprehensive final report
         2. Include key findings and insights from all agents
-        3. Highlight important connections and patterns discovered
-        4. Format the report in a clear, readable way using markdown
+        3. Format the report in a clear, readable way using markdown
         """
         orchestrator_message = UserMessage(
             content=[

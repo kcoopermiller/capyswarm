@@ -2,7 +2,7 @@ from typing import List, Callable, Optional, Any, Tuple
 from pydantic import BaseModel, Field, model_validator
 from scrapybara.anthropic import Anthropic
 from scrapybara.prompts import UBUNTU_SYSTEM_PROMPT
-from scrapybara.types.act import Message
+from scrapybara.types.act import Message, Step
 from .util import pretty_print_step
 import random
 
@@ -19,6 +19,7 @@ class Agent(BaseModel):
         system (str): System prompt defining the agent's role and capabilities
         prompt (Optional[str]): Current task or instruction for the agent
         messages (Optional[List[Message]]): Agent's conversation history
+        steps (Optional[List[Step]]): Store all steps from the agent
         response_schema (Optional[Any]): Schema for structured output (used by orchestrator)
         on_step (Optional[Callable]): Callback for processing execution steps
     """
@@ -40,6 +41,7 @@ class Agent(BaseModel):
     system: str = UBUNTU_SYSTEM_PROMPT
     prompt: Optional[str] = None
     messages: Optional[List[Message]] = None  # Agent's conversation history
+    steps: Optional[List[Step]] = None
     response_schema: Optional[Any] = None  # Schema for structured output
     on_step: Optional[Callable] = None
     
@@ -47,5 +49,11 @@ class Agent(BaseModel):
     def setup_defaults(self) -> 'Agent':
         """Set up default on_step function"""
         if self.on_step is None:
-            self.on_step = lambda step: pretty_print_step(step, self.name, self.color)
+            def step_handler(step):
+                pretty_print_step(step, self.name, self.color)
+                if self.steps is None:
+                    self.steps = [step]
+                else:
+                    self.steps.append(step)
+            self.on_step = step_handler
         return self

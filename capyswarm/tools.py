@@ -70,7 +70,8 @@ class InspectAgentTool(Tool):
                     "content": msg.content
                 }
                 for msg in target_agent.messages
-            ]
+            ],
+            "steps": target_agent.steps
         }
         
         return history
