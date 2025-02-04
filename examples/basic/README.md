@@ -31,9 +31,13 @@ This directory contains basic examples of using the Capyswarm library.
 
 ## Running the Examples
 
-To run any of the examples, you can use the following command:
+1. Set up your environment:
+   ```bash
+   export SCRAPYBARA_API_KEY="your_api_key"
+   ```
 
-```shell
-uv run examples/basic/<example_name>.py
-```
+2. Run the example:
+   ```bash
+   uv run examples/basic/<example_name>.py
+   ```
 

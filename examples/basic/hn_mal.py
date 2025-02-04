@@ -31,7 +31,8 @@ async def main():
         [hn_agent, mal_agent, orchestrator], api_key=os.getenv("SCRAPYBARA_API_KEY")
     ) as swarm:
         await swarm.run(
-            prompt="Collect the top 5 posts from Hacker News (news.ycombinator.com) and the top 5 anime from MyAnimeList (myanimelist.net)"
+            prompt="Collect the top 5 posts from Hacker News (news.ycombinator.com) and the top 5 anime from MyAnimeList (myanimelist.net)",
+            interactive=True,
         )
 
 
