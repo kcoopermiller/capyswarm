@@ -1,8 +1,7 @@
 from capyswarm import Swarm
 
-def run_demo_loop(
-    agent, debug=False
-) -> None:
+
+def run_demo_loop(agent, debug=False) -> None:
     client = Swarm()
     print("Starting Baraswarm CLI ₍ᐢ•(ܫ)•ᐢ₎")
 

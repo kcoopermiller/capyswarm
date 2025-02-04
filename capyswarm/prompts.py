@@ -1,14 +1,17 @@
 from scrapybara.prompts import UBUNTU_SYSTEM_PROMPT
 from typing import List
 
+
 def get_agent_prompt(agent_name: str, agents: List) -> str:
     """Generate the system prompt for a regular (non-orchestrator) agent"""
-    agent_info = "\n".join([
-        f"  - {a.name}: {a.prompt}"
-        for a in agents 
-        if not a.orchestrator and a.name != agent_name
-    ])
-    
+    agent_info = "\n".join(
+        [
+            f"  - {a.name}: {a.prompt}"
+            for a in agents
+            if not a.orchestrator and a.name != agent_name
+        ]
+    )
+
     return f"""{UBUNTU_SYSTEM_PROMPT}
 
 <ROLE>
@@ -55,13 +58,13 @@ When executing tasks:
 6. Consider dependencies with other agents' tasks
 </TASK_EXECUTION>"""
 
+
 def get_orchestrator_prompt(agents: list) -> str:
     """Generate the system prompt for the orchestrator agent"""
-    agent_info = "\n".join([
-        f"  - {a.name}: {a.prompt}"
-        for a in agents if not a.orchestrator
-    ])
-    
+    agent_info = "\n".join(
+        [f"  - {a.name}: {a.prompt}" for a in agents if not a.orchestrator]
+    )
+
     return f"""You are the Orchestrator Agent, the central coordinator of a swarm of AI agents working together on computer tasks. You will be given a task and a list of agents with their capabilities. Your role is to:
 
 1. TASK ANALYSIS & DELEGATION
@@ -149,4 +152,4 @@ IMPORTANT: End your turn:
 2. After effectively responding to an agent's message
 3. When you've provided the information or guidance an agent needs
 
-Remember: You are the orchestrator of the swarm. Your decisions should optimize for efficient task completion while maintaining clear communication and coordination between all agents.""" 
+Remember: You are the orchestrator of the swarm. Your decisions should optimize for efficient task completion while maintaining clear communication and coordination between all agents."""

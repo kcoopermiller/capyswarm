@@ -17,23 +17,24 @@ from .tools import (
     InspectAgentTool,
     AsyncBashTool,
     AsyncComputerTool,
-    AsyncEditTool
+    AsyncEditTool,
 )
 from .prompts import get_orchestrator_prompt, get_agent_prompt
 
+
 class Swarm:
-    """A coordinated group of AI agents working together to accomplish complex tasks.   
+    """A coordinated group of AI agents working together to accomplish complex tasks.
     Args:
         agents (List[Agent]): List of agents, must include exactly one orchestrator
         api_key (Optional[str]): Scrapybara API key for authentication
     """
-    
+
     def __init__(self, agents: List[Agent], api_key: Optional[str] = None):
         self.client = AsyncScrapybara(api_key=api_key)
         self.instances: Dict[str, any] = {}  # Track active Scrapybara instances
         self.agents = agents
         self.running_tasks = {}  # Track running agent tasks
-        
+
         orchestrator = [agent for agent in agents if agent.orchestrator]
         match len(orchestrator):
             case 0:
@@ -44,12 +45,12 @@ class Swarm:
                 self.orchestrator.system = get_orchestrator_prompt(self.agents)
             case _:
                 raise ValueError("Cannot have multiple orchestrator agents")
-        
+
         # Set up system prompts for regular agents
         for agent in self.agents:
             if not agent.orchestrator:
                 agent.system = get_agent_prompt(agent.name, self.agents)
-        
+
     async def __aenter__(self):
         return self
 
@@ -67,23 +68,26 @@ class Swarm:
         """Get existing instance or create new one for agent"""
         if agent.instance in self.instances:
             return self.instances[agent.instance]
-            
+
         try:
             if agent.instance == "shared":
                 instance = await self.client.start_ubuntu(timeout_hours=1)
             else:
                 try:
                     instance = next(
-                        inst for inst in await self.client.get_instances()
+                        inst
+                        for inst in await self.client.get_instances()
                         if inst.id == agent.instance
                     )
                 except StopIteration:
-                    print(f"Instance {agent.instance} not found, falling back to shared instance")
+                    print(
+                        f"Instance {agent.instance} not found, falling back to shared instance"
+                    )
                     agent.instance = "shared"
                     if "shared" in self.instances:
                         return self.instances["shared"]
                     instance = await self.client.start_ubuntu(timeout_hours=1)
-            
+
             self.instances[agent.instance] = instance
             return instance
         except ApiError as e:
@@ -93,15 +97,15 @@ class Swarm:
     def _setup_agent_tools(self, agent: Agent, instance: any) -> List:
         """Set up the appropriate tools for an agent."""
         tools = []
-        
+
         if agent.orchestrator:
             tools.append(InspectAgentTool(instance, agent, self))
         else:
             tools.append(CommunicateTool(instance, agent, self))
-        
+
         if agent.tools:
             return agent.tools + tools
-        
+
         default_tools = [
             AsyncBashTool(instance),
             AsyncComputerTool(instance),
@@ -124,7 +128,7 @@ class Swarm:
                 schema=agent.response_schema,
                 on_step=agent.on_step,
             )
-            
+
             if agent.messages is None:
                 agent.messages = response.messages
             else:
@@ -153,18 +157,18 @@ class Swarm:
         """
         self.orchestrator.prompt = prompt
         self.orchestrator.messages = messages
-            
+
         # Initial planning phase
         orchestrator_completion = await self.run_agent_task(self.orchestrator)
         self.orchestrator.response_schema = None
-        
+
         debug_print(debug, orchestrator_completion)
 
         if not orchestrator_completion or not orchestrator_completion.output:
             return "Failed to create initial plan"
-            
+
         plan = orchestrator_completion.output
-        
+
         # Group tasks by priority
         priority_groups = {}
         for assignment in plan.task_assignments:
@@ -172,30 +176,27 @@ class Swarm:
             if priority not in priority_groups:
                 priority_groups[priority] = []
             priority_groups[priority].append(assignment)
-        
+
         # Execute tasks in priority order
         for priority in sorted(priority_groups.keys(), reverse=True):
             debug_print(debug, f"Executing priority {priority} tasks...")
             priority_tasks = []
-            
+
             # Create tasks for this priority level
             for assignment in priority_groups[priority]:
                 target_agent = next(
-                    (a for a in self.agents if a.name == assignment.agent_name),
-                    None
+                    (a for a in self.agents if a.name == assignment.agent_name), None
                 )
                 if target_agent:
                     target_agent.prompt = assignment.prompt
-                    task = asyncio.create_task(
-                        self.run_agent_task(target_agent)
-                    )
+                    task = asyncio.create_task(self.run_agent_task(target_agent))
                     priority_tasks.append(task)
                     self.running_tasks[target_agent.name] = task
-            
+
             # Wait for all tasks of this priority to complete before moving to next priority
             await asyncio.gather(*priority_tasks, return_exceptions=True)
             debug_print(debug, f"Completed priority {priority} tasks")
-        
+
         # Final aggregation phase
         orchestrator_prompt = """
         Based on all the information shared during this task:
@@ -204,12 +205,7 @@ class Swarm:
         3. Format the report in a clear, readable way using markdown
         """
         orchestrator_message = UserMessage(
-            content=[
-                TextPart(
-                    type="text",
-                    text=orchestrator_prompt
-                )
-            ]
+            content=[TextPart(type="text", text=orchestrator_prompt)]
         )
         self.orchestrator.messages.append(orchestrator_message)
         final_report = await self.run_agent_task(self.orchestrator)

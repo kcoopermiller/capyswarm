@@ -15,6 +15,7 @@ requires-python = ">=3.12"
 dependencies = [
     "scrapybara",
     "python-dotenv",
+    "pre-commit>=4.1.0",
 ]
 
 [tool.setuptools]

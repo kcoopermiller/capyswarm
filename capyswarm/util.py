@@ -2,9 +2,10 @@ import json
 from datetime import datetime
 from typing import Tuple
 
+
 def pretty_print_step(step, agent_name: str, color: Tuple[int, int, int]) -> None:
     """Print a step with colored output.
-    
+
     Args:
         step: The step to print
         agent_name (str): Name of the agent
@@ -12,10 +13,10 @@ def pretty_print_step(step, agent_name: str, color: Tuple[int, int, int]) -> Non
     """
     r, g, b = color
     ansi_color = f"38;2;{r};{g};{b}"
-    
+
     if step.text:
         print(f"\033[{ansi_color}m{agent_name}\033[0m: {step.text}")
-    
+
     if step.tool_calls:
         if len(step.tool_calls) > 1:
             print()

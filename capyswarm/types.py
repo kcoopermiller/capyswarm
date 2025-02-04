@@ -6,9 +6,10 @@ from scrapybara.types.act import Message, Step
 from .util import pretty_print_step
 import random
 
+
 class Agent(BaseModel):
     """An AI agent that is part of a swarm, capable of executing tasks and communicating with other agents.
-    
+
     Attributes:
         name (str): The agent's identifier, used in communication and task assignment
         instance (Optional[str]): The Scrapybara instance ID this agent uses, defaults to "shared"
@@ -23,18 +24,21 @@ class Agent(BaseModel):
         response_schema (Optional[Any]): Schema for structured output (used by orchestrator)
         on_step (Optional[Callable]): Callback for processing execution steps
     """
+
     # Swarm-specific fields
     name: str = "Agent"
-    instance: Optional[str] = "shared"  # Track which Scrapybara instance this agent uses
+    instance: Optional[str] = (
+        "shared"  # Track which Scrapybara instance this agent uses
+    )
     color: Optional[Tuple[int, int, int]] = Field(
         default_factory=lambda: (
-            random.randint(100,255),
-            random.randint(100,255),
-            random.randint(100,255)
+            random.randint(100, 255),
+            random.randint(100, 255),
+            random.randint(100, 255),
         )
     )
     orchestrator: bool = False
-    
+
     # client.act parameters
     model: Anthropic = Field(default_factory=Anthropic)
     tools: List[Any] = Field(default_factory=list)  # List of tool instances
@@ -44,16 +48,18 @@ class Agent(BaseModel):
     steps: Optional[List[Step]] = None
     response_schema: Optional[Any] = None  # Schema for structured output
     on_step: Optional[Callable] = None
-    
-    @model_validator(mode='after')
-    def setup_defaults(self) -> 'Agent':
+
+    @model_validator(mode="after")
+    def setup_defaults(self) -> "Agent":
         """Set up default on_step function"""
         if self.on_step is None:
+
             def step_handler(step):
                 pretty_print_step(step, self.name, self.color)
                 if self.steps is None:
                     self.steps = [step]
                 else:
                     self.steps.append(step)
+
             self.on_step = step_handler
         return self

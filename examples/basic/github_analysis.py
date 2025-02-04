@@ -5,26 +5,27 @@ import os
 
 load_dotenv()
 
+
 async def main():
     metadata_agent = Agent(
         name="Metadata Analyst",
         prompt="You are specialized in analyzing GitHub repository metadata, including stars, forks, issues, and community metrics. Focus on gathering and analyzing repository statistics and community health indicators.",
-        orchestrator=False
+        orchestrator=False,
     )
-    
+
     code_agent = Agent(
         name="Code Analyst",
         prompt="You are specialized in analyzing GitHub repository code structure, architecture, and patterns. Focus on examining code organization, key features, and technical implementation details.",
-        orchestrator=False
+        orchestrator=False,
     )
-    
-    orchestrator = Agent(
-        name="Orchestrator",
-        orchestrator=True
-    )
-    
-    async with Swarm([metadata_agent, code_agent, orchestrator], api_key=os.getenv("SCRAPYBARA_API_KEY")) as swarm:
-        response = await swarm.run(
+
+    orchestrator = Agent(name="Orchestrator", orchestrator=True)
+
+    async with Swarm(
+        [metadata_agent, code_agent, orchestrator],
+        api_key=os.getenv("SCRAPYBARA_API_KEY"),
+    ) as swarm:
+        await swarm.run(
             prompt="""
             Analyze the fastapi/fastapi GitHub repository (github.com/tiangolo/fastapi). 
             Work together to create a comprehensive analysis:
@@ -36,5 +37,6 @@ async def main():
             """
         )
 
+
 if __name__ == "__main__":
-    asyncio.run(main()) 
+    asyncio.run(main())
