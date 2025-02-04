@@ -4,12 +4,12 @@
       <h1>
         <picture>
         <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/06a6476f-6a97-402d-bcc5-5d8d6e1fab17" width="30" >
-        <img src="https://github.com/user-attachments/assets/5f5de974-b6a2-41c3-bf0a-46a308432698" width="30"> 
+        <img src="https://github.com/user-attachments/assets/4808459b-bbf8-40a6-9e94-a56dd37c7d0c" width="30"> 
         </picture>
         Capyswarm
         <picture>
         <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/61a94a9d-51e2-486c-adb9-c1afa23f29f1" width="30" >
-        <img src="https://github.com/user-attachments/assets/5dcddbc6-215b-48d4-ab32-16f2437b5d9f" alt="Scrapybara" width="30">
+        <img src="https://github.com/user-attachments/assets/fee4b43a-3010-4d0a-b265-60b39d18adc8" alt="Scrapybara" width="30">
         </picture>
       </h1>
     </summary>
