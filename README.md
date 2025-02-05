@@ -86,7 +86,7 @@ if __name__ == "__main__":
   - [Swarm](#swarm)
   - [Agents](#agents)
 - [Evaluations](#evaluations)
-- [Roadmap](#roadmap)
+- [Roadmap](#roadmap) 
 
 # Overview
 
@@ -180,6 +180,7 @@ TODO: create example evals. Check `weather_agent` and `triage_agent` in OpenAI S
 
 # Roadmap
 
+- [ ] Priority lists are currently bugged and the swarm will fail if there are more than two of them.
 - [ ] Change instance (ubuntu, browser, or windows)
 - [ ] Add more examples / benchmarks
 - [ ] Add more documentation
