@@ -1,5 +1,7 @@
 # Chess Playing Example
 
+[chess.webm](https://github.com/user-attachments/assets/3ff4119e-0136-4f3c-a5f5-b7c1d831e196)
+
 > [!WARNING]
 > This example fails sporadically. It is not yet clear why.
 
