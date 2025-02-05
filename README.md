@@ -133,6 +133,7 @@ Swarm's `run()` function is analogous to the `client.act()` function in the [Scr
 | **prompt**            | `str`   | The main task description for the swarm                                                                                                                | (required)     |
 | **messages**          | `List[Message]` | Initial messages for context                                                                                                                   | `None`         |
 | **debug**             | `bool`  | If `True`, enables debug logging                                                                                                                       | `False`        |
+| **interactive**       | `bool`  | If `True`, opens a browser stream                                                                                                                      | `False`        |
 
 ## Agents
 

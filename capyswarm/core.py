@@ -160,6 +160,7 @@ class Swarm:
             prompt (str): The main task description for the swarm
             messages (Optional[List[Message]]): Initial messages for context
             debug (bool): Whether to print debug information during execution
+            interactive (bool): Whether to open a browser stream
 
         Returns:
             str: The final aggregated report from the orchestrator
