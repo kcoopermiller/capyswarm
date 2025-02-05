@@ -10,6 +10,7 @@ async def main():
     hn_agent = Agent(
         name="Hacker News Agent",
         prompt="You are specialized in web browsing and data extraction from Hacker News.",
+        instance="s-hnagent",  # Change this to a unique identifier for the instance
         color=(183, 65, 14),
         orchestrator=False,
     )
@@ -17,6 +18,7 @@ async def main():
     mal_agent = Agent(
         name="MyAnimeList Agent",
         prompt="You are specialized in web browsing and data extraction from MyAnimeList.",
+        instance="s-malagent",  # Change this to a unique identifier for the instance
         color=(47, 82, 162),
         orchestrator=False,
     )
@@ -24,6 +26,7 @@ async def main():
     orchestrator = Agent(
         name="Orchestrator",
         color=(255, 0, 0),
+        instance="s-hnagent",  # Change this to one of the instance ids of the agents (doesn't matter which for this example)
         orchestrator=True,
     )
 
@@ -32,7 +35,6 @@ async def main():
     ) as swarm:
         await swarm.run(
             prompt="Collect the top 5 posts from Hacker News (news.ycombinator.com) and the top 5 anime from MyAnimeList (myanimelist.net)",
-            interactive=True,
         )
 
 

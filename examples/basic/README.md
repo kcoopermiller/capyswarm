@@ -11,8 +11,9 @@ This directory contains basic examples of using the Capyswarm library.
 
 2. **hn_mal.py**
 
-   - Demonstrates how to scrape two different websites in parallel using an Orchestrator and two specialized Agents.
+   - Demonstrates how to scrape two different websites in parallel in two separate instances using an Orchestrator and two specialized Agents.
    - **Usage**: Scrapes the top 5 posts from Hacker News and the top 5 anime from MyAnimeList.
+   - **Note**: This example requires you to have two different Scrapybara instances running before you run the example.
 
 3. **github_analysis.py**
 
