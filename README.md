@@ -180,10 +180,9 @@ TODO: create example evals. Check `weather_agent` and `triage_agent` in OpenAI S
 
 # Roadmap
 
-- [ ] Priority lists are currently bugged and the swarm will fail if there are more than two of them.
-- [ ] Change instance (ubuntu, browser, or windows)
+- [ ] Priority lists are currently bugged and the swarm will fail if the length is greater than 2.
 - [ ] Add more examples / benchmarks
-- [ ] Add more documentation
+- [ ] Add more documentation and visualizations
 - [ ] Custom Response object
 - [ ] Give Orchestrator ability to create Agents
 - [ ] Rework the prompts. Currently they get overwritten or merged at odd times.

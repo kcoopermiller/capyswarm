@@ -15,17 +15,37 @@ This directory contains basic examples of using the Capyswarm library.
    - **Usage**: Scrapes the top 5 posts from Hacker News and the top 5 anime from MyAnimeList.
    - **Note**: This example requires you to have two different Scrapybara instances running before you run the example.
 
-3. **github_analysis.py**
+   <details>
+   <summary>Click to view demo video</summary>
+   
+   
+   
+   </details>
 
-   - Shows how two agents can collaborate on a shared goal simultaneously, analyzing different aspects of a GitHub repository.
-   - **Usage**: Performs a comprehensive analysis of the FastAPI repository with agents sharing insights.
-
-4. **hn_analysis.py**
+3. **hn_analysis.py**
 
     - Demonstrates a hand-off between agents, where one agent collects data and another waits for that data and then analyzes it.
     - **Usage**: Collects and analyzes the top 5 posts from Hacker News.
 
-5. **repl.py (WIP)**
+4. **weather.py**
+
+   - Demonstrates how to use an Orchestrator to coordinate two agents, where one agent collects data and another waits for that data and then analyzes it.
+   - **Usage**: Gets the weather forecast for New York City and recommends suitable outdoor activities for the next 3 days.
+
+   <details>
+   <summary>Click to view demo video</summary>
+   
+   
+   
+   </details>
+
+5. **github_analysis.py**
+
+   - Shows how two agents can collaborate on a shared goal simultaneously, analyzing different aspects of a GitHub repository.
+   - **Usage**: Performs a comprehensive analysis of the FastAPI repository with agents sharing insights.
+   - **Note**: Doesn't always work as expected.
+
+6. **repl.py (WIP)**
 
    - Shows how to use context variables within an agent.
    - **Usage**: Demonstrates maintaining state between agent interactions.
