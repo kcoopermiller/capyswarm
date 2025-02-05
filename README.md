@@ -105,7 +105,7 @@ All interactions between the user and agents are mediated by the `Orchestrator`,
 Check out `/examples` for inspiration! Learn more about each one in its README.
 
 - [`basic`](examples/basic): Simple examples of fundamentals
-- [`fireboy_watergirl`](examples/fireboy_watergirl): An example of two agents playing [Fireboy and Watergirl](https://www.coolmathgames.com/0-fireboy-and-water-girl-in-the-forest-temple)
+- [`chess`](examples/chess): An example of two agents playing [Chess](https://plainchess.timwoelfle.de/)
 
 # Documentation
 
@@ -185,3 +185,4 @@ TODO: create example evals. Check `weather_agent` and `triage_agent` in OpenAI S
 - [ ] Add more documentation
 - [ ] Custom Response object
 - [ ] Give Orchestrator ability to create Agents
+- [ ] Rework the prompts. Currently they get overwritten or merged at odd times.

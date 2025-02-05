@@ -1,5 +1,8 @@
 # Chess Playing Example
 
+> [!WARNING]
+> This example works sporadically. It is not yet clear why.
+
 This example demonstrates how two agents can play chess against each other using the [Plain Chess Game](https://plainchess.timwoelfle.de/).
 
 ## Running the Example

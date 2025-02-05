@@ -12,10 +12,7 @@ white = Agent(
            - Plan your response
         
         2. Move pieces by clicking:
-           - Move mouse to source: computer(action="mouse_move", coordinate=[x, y])
-           - Click: computer(action="left_click")
-           - Move mouse to target: computer(action="mouse_move", coordinate=[x, y])
-           - Click: computer(action="left_click")
+           - Move mouse to source, left click, move mouse to target, left click
         
         Before each move:
         1. Take a screenshot to analyze the position
@@ -23,15 +20,7 @@ white = Agent(
         3. Execute the move with precise click coordinates
         4. Take another screenshot to verify the move
         
-        Chess Strategy Tips:
-        - Control the center (e4, d4, e5, d5)
-        - Develop your pieces early
-        - Castle for king safety
-        - Create and exploit weaknesses
-        - Think about pawn structure
-        
         End your turn after playing your move.""",
-    color=(255, 253, 208),
     orchestrator=False,
 )
 
@@ -47,10 +36,7 @@ black = Agent(
            - Plan your response
         
         2. Move pieces by clicking:
-           - Move mouse to source: computer(action="mouse_move", coordinate=[x, y])
-           - Click: computer(action="left_click")
-           - Move mouse to target: computer(action="mouse_move", coordinate=[x, y])
-           - Click: computer(action="left_click")
+           - Move mouse to source, left click, move mouse to target, left click
         
         Before each move:
         1. Take a screenshot to analyze the position
@@ -58,15 +44,7 @@ black = Agent(
         3. Execute the move with precise click coordinates
         4. Take another screenshot to verify the move
         
-        Chess Strategy Tips:
-        - Control the center (e4, d4, e5, d5)
-        - Develop your pieces early
-        - Castle for king safety
-        - Create and exploit weaknesses
-        - Think about pawn structure
-        
         End your turn after playing your move.""",
-    color=(139, 89, 58),
     orchestrator=False,
 )
 

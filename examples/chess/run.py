@@ -20,7 +20,7 @@ async def main():
             2. Start an offline chess game between the two agents
             3. Verify that the game is loaded
 
-            Then, instruct the White and Black agents to play out the first 10 moves of the game (assign priority to each move accordingly).
+            Then, instruct the White and Black agents to play out the first 3 moves of the game (assign priority to each move accordingly).
             """,
             interactive=True,
         )

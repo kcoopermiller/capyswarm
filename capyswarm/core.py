@@ -50,7 +50,7 @@ class Swarm:
         # Set up system prompts for regular agents
         for agent in self.agents:
             if not agent.orchestrator:
-                agent.system = get_agent_prompt(agent.name, self.agents)
+                agent.system = get_agent_prompt(agent.name, self.agents, agent.prompt)
 
     async def __aenter__(self):
         return self

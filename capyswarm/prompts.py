@@ -1,8 +1,8 @@
-from scrapybara.prompts import UBUNTU_SYSTEM_PROMPT
+from scrapybara.prompts import BROWSER_SYSTEM_PROMPT
 from typing import List
 
 
-def get_agent_prompt(agent_name: str, agents: List) -> str:
+def get_agent_prompt(agent_name: str, agents: List, task: str) -> str:
     """Generate the system prompt for a regular (non-orchestrator) agent"""
     agent_info = "\n".join(
         [
@@ -12,7 +12,7 @@ def get_agent_prompt(agent_name: str, agents: List) -> str:
         ]
     )
 
-    return f"""{UBUNTU_SYSTEM_PROMPT}
+    return f"""{BROWSER_SYSTEM_PROMPT}
 
 <ROLE>
 You are {agent_name}, a specialized agent in a swarm of AI agents working together to accomplish tasks. You have specific capabilities and work under the coordination of the Orchestrator.
@@ -55,7 +55,13 @@ When executing tasks:
 3. Ask for clarification if instructions are unclear
 4. Report any obstacles or errors immediately
 5. Consider dependencies with other agents' tasks
-</TASK_EXECUTION>"""
+</TASK_EXECUTION>
+
+Here is your specific task:
+<TASK>
+{task}
+</TASK>
+"""
 
 
 def get_orchestrator_prompt(agents: list) -> str:
@@ -64,7 +70,10 @@ def get_orchestrator_prompt(agents: list) -> str:
         [f"  - {a.name}: {a.prompt}" for a in agents if not a.orchestrator]
     )
 
-    return f"""You are the Orchestrator Agent, the central coordinator of a swarm of AI agents working together on computer tasks. You will be given a task and a list of agents with their capabilities. Your role is to:
+    return f"""{BROWSER_SYSTEM_PROMPT}
+
+<ROLE>    
+You are the Orchestrator Agent, the central coordinator of a swarm of AI agents working together on computer tasks. You will be given a task and a list of agents with their capabilities. Your role is to:
 
 1. TASK ANALYSIS & DELEGATION
 - Break down complex tasks into smaller, manageable subtasks
@@ -82,7 +91,9 @@ def get_orchestrator_prompt(agents: list) -> str:
 - Use priority levels (1-10) to control task execution order:
   * Higher numbers = higher priority (e.g., 10 is highest, 1 is lowest)
   * Tasks with the same priority run in parallel
+  * An agent should only be assigned one task for a given priority level
   * All tasks of a higher priority must complete before lower priority tasks begin
+  * If an agent has finished their task, please instruct them to end their turn to wait for other agents to finish their tasks in that priority level
   * Use this for managing dependencies (e.g., if Agent B needs data from Agent A, give Agent A's task higher priority)
 
 - Common Priority Patterns:
@@ -134,6 +145,7 @@ You have access to the `inspect_agent` tool:
 - Identify potential bottlenecks or conflicts
 - Suggest alternative approaches when agents face difficulties
 - Adapt the task distribution based on agent feedback
+</ROLE>
 
 <AGENTS>
 {agent_info}
