@@ -124,7 +124,7 @@ client = Swarm(agents, api_key)
 
 ### `client.run()`
 
-Swarm's `run()` function is analogous to the `client.act()` function in the [Scrapybara Act SDK](https://docs.scrapybara.com/act-sdk) – it takes a a `prompt` that should denote the agent’s current objective, and starts an interaction loop between the `Agent`s that continues until they achieve the user's objective.
+Swarm's `run()` function is analogous to the `client.act()` function in the [Scrapybara Act SDK](https://docs.scrapybara.com/act-sdk) – it takes a `prompt` that should denote the agent’s current objective, and starts an interaction loop between the `Agent`s that continues until they achieve the user's objective.
 
 #### Arguments
 
@@ -142,7 +142,10 @@ from capyswarm import Agent
 agent = Agent()
 ```
 
-TODO: explain `Agent`s better
+There are two main types of agents:
+
+- **Worker Agents**: Specialize in performing focused tasks such as web data extraction, code analysis, data processing, etc.
+- **Orchestrator Agent**: Manages the overall task by delegating subtasks to workers, coordinating their interactions, and aggregating results. Only one agent in the swarm should have this role.
 
 ### `Agent` Fields
 
@@ -159,6 +162,17 @@ TODO: explain `Agent`s better
 | **messages**        | `List`                          | A list of `scrapybara.types.act.Message` objects                              | `None`                                           |
 | **response_schema** | `Any`                           | [Structured output](https://docs.scrapybara.com/act-sdk#structured-output)    | `None`                                           |
 | **on_step**         | `Callable`                      | What to print after one iteration                                             | [pretty_print_step](https://github.com/kcoopermiller/baraswarm/blob/main/swarm/util.py#L4) |
+
+### Using Agents in a Swarm
+
+Agents work together by joining a Swarm. Typically, you have one orchestrator managing multiple worker agents.
+
+Here's a high-level overview of the workflow:
+
+1. The **Orchestrator Agent** receives the main task and generates an overall plan by decomposing it into subtasks, each tailored to a specific worker agent.
+2. The assigned tasks are grouped by priority levels. Tasks sharing the same priority are executed as asynchronous coroutines concurrently, ensuring that resource-intensive or dependent tasks are coordinated seamlessly.
+3. As each worker agent completes its task, the results are logged. The orchestrator waits for all higher-priority tasks to finish before proceeding with lower-priority tasks.
+4. Finally, the orchestrator aggregates all agent outputs into a comprehensive final report, which is then returned to the user.
 
 # Evaluations
 
