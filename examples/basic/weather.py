@@ -9,12 +9,11 @@ load_dotenv()
 async def main():
     weather_agent = Agent(
         name="Weather Agent",
-        prompt="""You are specialized in extracting weather data from weather.com.
+        prompt="""You are specialized in extracting weather data from Google.
         
         Your tasks:
-        1. Navigate to weather.com
-        2. Get the current weather for the requested location
-        3. Extract key data points:
+        1. Get the current weather for the requested location
+        2. Extract key data points:
            - Temperature
            - Precipitation chance
            - Wind conditions
