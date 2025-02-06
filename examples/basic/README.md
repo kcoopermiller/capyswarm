@@ -19,8 +19,8 @@ This directory contains basic examples of using the Capyswarm library.
    - Demonstrates how to use an Orchestrator to coordinate two agents, where one agent collects data and another waits for that data and then analyzes it.
    - **Usage**: Gets the weather forecast for New York City and recommends suitable outdoor activities for the next 3 days.
 
-<details>
-<summary><b>Click to view demo video</b></summary>
+<details open>
+<summary><b>Click to view demo video 📽️</b></summary>
    
 [weather.webm](https://github.com/user-attachments/assets/e289d12b-4dae-480b-b324-e5a874c78d77)
    
@@ -32,8 +32,8 @@ This directory contains basic examples of using the Capyswarm library.
    - **Usage**: Scrapes the top 5 posts from Hacker News and the top 5 anime from MyAnimeList.
    - **Note**: This example requires you to have two different Scrapybara instances running before you run the example.
 
-<details>
-<summary><b>Click to view demo video</b></summary>
+<details open>
+<summary><b>Click to view demo video 📽️</b></summary>
    
 [hn_mal.webm](https://github.com/user-attachments/assets/1756fdf8-701b-4cd8-9555-055a4d007ad0)
 
