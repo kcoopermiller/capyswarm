@@ -22,7 +22,7 @@ This directory contains basic examples of using the Capyswarm library.
 <details>
 <summary><b>Click to view demo video</b></summary>
    
-   
+[weather.webm](https://github.com/user-attachments/assets/e289d12b-4dae-480b-b324-e5a874c78d77)
    
 </details>
 
