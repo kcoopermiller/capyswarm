@@ -124,7 +124,7 @@ client = Swarm(agents, api_key)
 
 ### `client.run()`
 
-Swarm's `run()` function is analogous to the `client.act()` function in the [Scrapybara Act SDK](https://docs.scrapybara.com/act-sdk) – it takes a `prompt` that should denote the agent’s current objective, and starts an interaction loop between the `Agent`s that continues until they achieve the user's objective.
+Swarm's `run()` function is analogous to the `client.act()` function in the [Scrapybara Act SDK](https://docs.scrapybara.com/act-sdk) – it takes a `prompt` that should denote the agent's current objective, and starts an interaction loop between the `Agent`s that continues until they achieve the user's objective.
 
 #### Arguments
 
@@ -152,17 +152,18 @@ There are two main types of agents:
 
 | Field               | Type                             | Description                                                                   | Default                                          |
 | ------------------- | -------------------------------- | ----------------------------------------------------------------------------- | ------------------------------------------------ |
-| **name**            | `str`                            | The name of the agent.                                                        | `"Agent"`                                        |
-| **instance**        | `str`                            | The Scrapybara instance this agent uses.                                      | `"shared"`                                       |
+| **name**            | `str`                            | The name of the agent                                                         | `"Agent"`                                        |
+| **instance**        | `str`                            | The Scrapybara instance ID this agent uses                                    | `"shared"`                                       |
+| **instance_type**   | `Literal["ubuntu", "windows", "browser"]` | The type of instance to use                                         | `"ubuntu"`                                       |
 | **color**           | `Tuple[int, int, int]`           | RGB color tuple for agent's output (r,g,b)                                    | random `Tuple` of rgb values                     |
 | **orchestrator**    | `bool`                           | True if this agent is orchestrator                                            | `False`                                          |
-| **model**           | `scrapybara.anthropic.Anthropic` | The model to be used by the agent.                                            | `scrapybara.anthropic.Anthropic`                 |
-| **tool**            | `list`                           | List of tools available to agent                                              | check [_setup_agent_tools](https://github.com/kcoopermiller/baraswarm/blob/main/swarm/core.py#L75)                                                                                                                 |
-| **system**          | `str`                           | System prompt                                                                 | `scrapybara.prompts.UBUNTU_SYSTEM_PROMPT`        |
-| **prompt**          | `str`                           | Description of preferred Agent objective                                      | `None`                                           |
-| **messages**        | `List`                          | A list of `scrapybara.types.act.Message` objects                              | `None`                                           |
-| **response_schema** | `Any`                           | [Structured output](https://docs.scrapybara.com/act-sdk#structured-output)    | `None`                                           |
-| **on_step**         | `Callable`                      | What to print after one iteration                                             | [pretty_print_step](https://github.com/kcoopermiller/baraswarm/blob/main/swarm/util.py#L4) |
+| **model**           | `scrapybara.anthropic.Anthropic` | The model to be used by the agent                                            | `scrapybara.anthropic.Anthropic`                 |
+| **tools**           | `List[Any]`                      | List of tools available to agent                                              | Default tools based on instance type             |
+| **system**          | `Optional[str]`                  | System prompt (if None, uses default based on instance_type)                  | `None`                                           |
+| **prompt**          | `Optional[str]`                  | Description of preferred Agent objective                                      | `None`                                           |
+| **messages**        | `Optional[List[Message]]`        | A list of `scrapybara.types.act.Message` objects                             | `None`                                           |
+| **response_schema** | `Optional[Any]`                  | [Structured output](https://docs.scrapybara.com/act-sdk#structured-output)    | `None`                                           |
+| **on_step**         | `Optional[Callable]`             | What to print after one iteration                                             | [pretty_print_step](https://github.com/kcoopermiller/baraswarm/blob/main/swarm/util.py#L4) |
 
 ### Using Agents in a Swarm
 
@@ -183,7 +184,6 @@ TODO: create example evals. Check `weather_agent` and `triage_agent` in OpenAI S
 
 - [ ] Priority lists are currently bugged and the swarm will fail if the length is greater than 2
 - [ ] Cleaner output (ex: orchestrator responses should not come before agent communications)
-- [ ] Choose between instances (ubuntu, windows, browser)
 - [ ] Add more examples / benchmarks
 - [ ] Add more documentation and visualizations
 - [ ] Custom Response object

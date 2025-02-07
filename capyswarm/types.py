@@ -1,7 +1,6 @@
-from typing import List, Callable, Optional, Any, Tuple
+from typing import List, Callable, Optional, Any, Tuple, Literal
 from pydantic import BaseModel, Field, model_validator
 from scrapybara.anthropic import Anthropic
-from scrapybara.prompts import UBUNTU_SYSTEM_PROMPT
 from scrapybara.types.act import Message, Step
 from .util import pretty_print_step
 import random
@@ -13,6 +12,7 @@ class Agent(BaseModel):
     Attributes:
         name (str): The agent's identifier, used in communication and task assignment
         instance (Optional[str]): The Scrapybara instance ID this agent uses, defaults to "shared"
+        instance_type (str): The type of instance to use ("ubuntu", "windows", or "browser")
         color (Optional[Tuple[int, int, int]]): RGB color tuple for agent's output (r,g,b)
         orchestrator (bool): Whether this agent is the orchestrator (False for worker agents)
         model (Anthropic): The LLM model instance used by this agent
@@ -30,6 +30,7 @@ class Agent(BaseModel):
     instance: Optional[str] = (
         "shared"  # Track which Scrapybara instance this agent uses
     )
+    instance_type: Literal["ubuntu", "windows", "browser"] = "ubuntu"
     color: Optional[Tuple[int, int, int]] = Field(
         default_factory=lambda: (
             random.randint(100, 255),
@@ -42,7 +43,7 @@ class Agent(BaseModel):
     # client.act parameters
     model: Anthropic = Field(default_factory=Anthropic)
     tools: List[Any] = Field(default_factory=list)  # List of tool instances
-    system: str = UBUNTU_SYSTEM_PROMPT
+    system: Optional[str] = None
     prompt: Optional[str] = None
     messages: Optional[List[Message]] = None  # Agent's conversation history
     steps: Optional[List[Step]] = None

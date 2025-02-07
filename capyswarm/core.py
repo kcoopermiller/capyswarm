@@ -74,22 +74,32 @@ class Swarm:
 
         try:
             if agent.instance == "shared":
-                instance = await self.client.start_ubuntu(timeout_hours=1)
+                # Create new instance based on instance_type
+                match agent.instance_type:
+                    case "ubuntu":
+                        instance = await self.client.start_ubuntu(timeout_hours=1)
+                    case "windows":
+                        instance = await self.client.start_windows(timeout_hours=1)
+                    case "browser":
+                        instance = await self.client.start_browser(timeout_hours=1)
             else:
                 try:
+                    # Try to find existing instance
                     instance = next(
                         inst
                         for inst in await self.client.get_instances()
                         if inst.id == agent.instance
                     )
                 except StopIteration:
-                    print(
-                        f"Instance {agent.instance} not found, falling back to shared instance"
-                    )
-                    agent.instance = "shared"
-                    if "shared" in self.instances:
-                        return self.instances["shared"]
-                    instance = await self.client.start_ubuntu(timeout_hours=1)
+                    # If instance not found, create a new one with the specified instance type
+                    print(f"Instance {agent.instance} not found, creating new instance")
+                    match agent.instance_type:
+                        case "ubuntu":
+                            instance = await self.client.start_ubuntu(timeout_hours=1)
+                        case "windows":
+                            instance = await self.client.start_windows(timeout_hours=1)
+                        case "browser":
+                            instance = await self.client.start_browser(timeout_hours=1)
 
             if interactive:
                 stream_url = await instance.get_stream_url()

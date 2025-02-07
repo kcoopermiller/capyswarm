@@ -1,4 +1,8 @@
-from scrapybara.prompts import BROWSER_SYSTEM_PROMPT
+from scrapybara.prompts import (
+    BROWSER_SYSTEM_PROMPT,
+    UBUNTU_SYSTEM_PROMPT,
+    WINDOWS_SYSTEM_PROMPT,
+)
 from typing import List
 
 
@@ -12,7 +16,19 @@ def get_agent_prompt(agent_name: str, agents: List, task: str) -> str:
         ]
     )
 
-    return f"""{BROWSER_SYSTEM_PROMPT}
+    agent = next((a for a in agents if a.name == agent_name), None)
+    if not agent:
+        raise ValueError(f"Agent {agent_name} not found")
+
+    match agent.instance_type:
+        case "ubuntu":
+            system_prompt = UBUNTU_SYSTEM_PROMPT
+        case "windows":
+            system_prompt = WINDOWS_SYSTEM_PROMPT
+        case "browser":
+            system_prompt = BROWSER_SYSTEM_PROMPT
+
+    return f"""{system_prompt}
 
 <ROLE>
 You are {agent_name}, a specialized agent in a swarm of AI agents working together to accomplish tasks. You have specific capabilities and work under the coordination of the Orchestrator.
@@ -70,7 +86,19 @@ def get_orchestrator_prompt(agents: list) -> str:
         [f"  - {a.name}: {a.prompt}" for a in agents if not a.orchestrator]
     )
 
-    return f"""{BROWSER_SYSTEM_PROMPT}
+    orchestrator = next((a for a in agents if a.orchestrator), None)
+    if not orchestrator:
+        raise ValueError("No orchestrator agent found")
+
+    match orchestrator.instance_type:
+        case "ubuntu":
+            system_prompt = UBUNTU_SYSTEM_PROMPT
+        case "windows":
+            system_prompt = WINDOWS_SYSTEM_PROMPT
+        case "browser":
+            system_prompt = BROWSER_SYSTEM_PROMPT
+
+    return f"""{system_prompt}
 
 <ROLE>    
 You are the Orchestrator Agent, the central coordinator of a swarm of AI agents working together on computer tasks. You will be given a task and a list of agents with their capabilities. Your role is to:
