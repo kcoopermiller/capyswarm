@@ -16,8 +16,8 @@ This directory contains basic examples of using the Capyswarm library.
 
 3. **weather.py**
 
-   - Demonstrates how to use an Orchestrator to coordinate two agents, where one agent collects data and another waits for that data and then analyzes it.
-   - **Usage**: Gets the weather forecast for New York City and recommends suitable outdoor activities for the next 3 days.
+   - Another demonstration of how to coordinate two agents, where one agent collects data and another waits for that data and then analyzes it.
+   - **Usage**: Gets the weather forecast for Tokyo and recommends suitable outdoor activities for the next 3 days.
 
 <details open>
 <summary><b>Click to view demo video 📽️</b></summary>
