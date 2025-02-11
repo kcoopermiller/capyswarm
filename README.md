@@ -183,7 +183,6 @@ TODO: create example evals. Check `weather_agent` and `triage_agent` in OpenAI S
 # Roadmap
 
 - [ ] Priority lists are currently bugged and the swarm will fail if the length is greater than 2
-- [ ] Cleaner output (ex: orchestrator responses should not come before agent communications)
 - [ ] Add more examples / benchmarks
 - [ ] Add more documentation and visualizations
 - [ ] Custom Response object

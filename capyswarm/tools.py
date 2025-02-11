@@ -132,7 +132,13 @@ class CommunicateTool(Tool):
 
         self._swarm.orchestrator.messages.append(agent_message)
 
+        # Temporarily remove orchestrator's on_step function so orchestrator's response is not printed before the agent's message
+        original_on_step = self._swarm.orchestrator.on_step
+        self._swarm.orchestrator.on_step = None
+
         response = await self._swarm.run_agent_task(self._swarm.orchestrator)
+
+        self._swarm.orchestrator.on_step = original_on_step
 
         if not response:
             raise ValueError("Failed to get response from orchestrator")
@@ -141,9 +147,8 @@ class CommunicateTool(Tool):
             "from_agent": self._agent.name,
             "to_agent": "Orchestrator",
             "message": params.message,
-            "orchestrator_response": response.text
-            if response.text
-            else "No response from orchestrator",
+            "orchestrator_response": response.steps,
+            "orchestrator_response_color": self._swarm.orchestrator.color,
         }
 
 

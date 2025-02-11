@@ -25,6 +25,22 @@ def pretty_print_step(step, agent_name: str, color: Tuple[int, int, int]) -> Non
             args_str = json.dumps(tool_call.args)
             print(f"\033[{ansi_color}m{name}\033[0m({args_str[1:-1]})")
 
+    # Special handling for communicate tool calls
+    if step.tool_results:
+        for result in step.tool_results:
+            if result.tool_name == "communicate":
+                try:
+                    for orch_step in result.result["orchestrator_response"]:
+                        pretty_print_step(
+                            orch_step,
+                            "Orchestrator",
+                            result.result["orchestrator_response_color"],
+                        )
+                except Exception:
+                    print(
+                        f"\033[{result.result['orchestrator_response_color']}mNo response from orchestrator\033[0m"
+                    )
+
 
 def debug_print(debug: bool, *args: str) -> None:
     if not debug:
