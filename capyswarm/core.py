@@ -199,6 +199,8 @@ class Swarm:
                 priority_groups[priority] = []
             priority_groups[priority].append(assignment)
 
+        debug_print(debug, "priority_groups:", priority_groups)
+
         # Execute tasks in priority order
         for priority in sorted(priority_groups.keys(), reverse=True):
             debug_print(debug, f"Executing priority {priority} tasks...")
